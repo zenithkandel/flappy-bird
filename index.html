@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Flappy Quest — Fly, Collect, Customize</title>
+    <meta name="description" content="A beautiful Flappy Bird clone with collectible coins, unlockable skins, and stunning visuals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Menu Screen -->
+    <div id="menu-screen" class="screen active">
+        <div class="menu-content">
+            <div class="logo-container">
+                <h1 class="game-logo">Flappy<span>Quest</span></h1>
+                <p class="tagline">Fly • Collect • Customize</p>
+            </div>
+            <div class="menu-bird-preview" id="menu-bird-canvas-wrap">
+                <canvas id="menu-bird-canvas" width="120" height="120"></canvas>
+            </div>
+            <div class="menu-buttons">
+                <button id="btn-play" class="btn btn-play" onclick="startGame()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                    Play
+                </button>
+                <button id="btn-shop" class="btn btn-shop" onclick="openShop()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.5 3.25L12 10.68 5.5 7.43 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm9 10.86v-7.36l7-3.5v7.36l-7 3.5z"/></svg>
+                    Shop
+                </button>
+            </div>
+            <div class="menu-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">🪙</span>
+                    <span class="stat-value" id="menu-coins">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🏆</span>
+                    <span class="stat-value" id="menu-highscore">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="floating-coins"></div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <canvas id="game-canvas"></canvas>
+        <div id="game-hud">
+            <div id="hud-score">0</div>
+            <div id="hud-coins">
+                <span class="coin-icon">🪙</span>
+                <span id="hud-coin-count">0</span>
+            </div>
+        </div>
+        <div id="tap-to-start" class="overlay-message">
+            <div class="tap-content">
+                <div class="tap-icon">👆</div>
+                <p>Tap to Flap!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="screen">
+        <div class="gameover-content">
+            <h2 class="gameover-title">Game Over</h2>
+            <div class="gameover-stats">
+                <div class="go-stat">
+                    <span class="go-label">Score</span>
+                    <span class="go-value" id="go-score">0</span>
+                </div>
+                <div class="go-stat">
+                    <span class="go-label">Best</span>
+                    <span class="go-value" id="go-best">0</span>
+                </div>
+                <div class="go-stat highlight">
+                    <span class="go-label">Coins</span>
+                    <span class="go-value" id="go-coins">+0</span>
+                </div>
+            </div>
+            <div id="new-best" class="new-best hidden">✨ New Best! ✨</div>
+            <div class="gameover-buttons">
+                <button id="btn-retry" class="btn btn-play" onclick="startGame()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    Retry
+                </button>
+                <button id="btn-menu" class="btn btn-secondary" onclick="goToMenu()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Screen -->
+    <div id="shop-screen" class="screen">
+        <div class="shop-header">
+            <button id="btn-shop-back" class="btn-icon" onclick="closeShop()">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
+            <h2 class="shop-title">Skin Shop</h2>
+            <div class="shop-balance">
+                <span class="coin-icon">🪙</span>
+                <span id="shop-coins">0</span>
+            </div>
+        </div>
+        <div class="shop-grid" id="shop-grid">
+            <!-- Skins injected by JS -->
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
