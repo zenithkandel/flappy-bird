@@ -4,113 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Flappy Quest — Fly, Collect, Customize</title>
-    <meta name="description" content="A beautiful Flappy Bird clone with collectible coins, unlockable skins, and stunning visuals.">
+    <meta name="description" content="A beautiful Flappy Bird clone with coins, power-ups, skins, achievements, and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Main Menu Screen -->
-    <div id="menu-screen" class="screen active">
-        <div class="menu-content">
-            <div class="logo-container">
-                <h1 class="game-logo">Flappy<span>Quest</span></h1>
-                <p class="tagline">Fly • Collect • Customize</p>
-            </div>
-            <div class="menu-bird-preview" id="menu-bird-canvas-wrap">
-                <canvas id="menu-bird-canvas" width="120" height="120"></canvas>
-            </div>
-            <div class="menu-buttons">
-                <button id="btn-play" class="btn btn-play" onclick="startGame()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-                    Play
-                </button>
-                <button id="btn-shop" class="btn btn-shop" onclick="openShop()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.5 3.25L12 10.68 5.5 7.43 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm9 10.86v-7.36l7-3.5v7.36l-7 3.5z"/></svg>
-                    Shop
-                </button>
-            </div>
-            <div class="menu-stats">
-                <div class="stat-item">
-                    <span class="stat-icon">🪙</span>
-                    <span class="stat-value" id="menu-coins">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-icon">🏆</span>
-                    <span class="stat-value" id="menu-highscore">0</span>
-                </div>
-            </div>
-        </div>
-        <div class="floating-coins"></div>
-    </div>
 
-    <!-- Game Screen -->
-    <div id="game-screen" class="screen">
-        <canvas id="game-canvas"></canvas>
-        <div id="game-hud">
-            <div id="hud-score">0</div>
-            <div id="hud-coins">
-                <span class="coin-icon">🪙</span>
-                <span id="hud-coin-count">0</span>
-            </div>
-        </div>
-        <div id="tap-to-start" class="overlay-message">
-            <div class="tap-content">
-                <div class="tap-icon">👆</div>
-                <p>Tap to Flap!</p>
-            </div>
-        </div>
+<!-- ===== MENU ===== -->
+<div id="menu-screen" class="screen active">
+  <div class="menu-content">
+    <div class="logo-container">
+      <h1 class="game-logo">Flappy<span>Quest</span></h1>
+      <p class="tagline">Fly • Collect • Customize</p>
     </div>
-
-    <!-- Game Over Screen -->
-    <div id="gameover-screen" class="screen">
-        <div class="gameover-content">
-            <h2 class="gameover-title">Game Over</h2>
-            <div class="gameover-stats">
-                <div class="go-stat">
-                    <span class="go-label">Score</span>
-                    <span class="go-value" id="go-score">0</span>
-                </div>
-                <div class="go-stat">
-                    <span class="go-label">Best</span>
-                    <span class="go-value" id="go-best">0</span>
-                </div>
-                <div class="go-stat highlight">
-                    <span class="go-label">Coins</span>
-                    <span class="go-value" id="go-coins">+0</span>
-                </div>
-            </div>
-            <div id="new-best" class="new-best hidden">✨ New Best! ✨</div>
-            <div class="gameover-buttons">
-                <button id="btn-retry" class="btn btn-play" onclick="startGame()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-                    Retry
-                </button>
-                <button id="btn-menu" class="btn btn-secondary" onclick="goToMenu()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                    Menu
-                </button>
-            </div>
-        </div>
+    <div class="menu-bird-preview"><canvas id="menu-bird-canvas" width="120" height="120"></canvas></div>
+    <div class="difficulty-picker" id="diff-picker">
+      <button class="diff-btn" data-diff="easy">Easy</button>
+      <button class="diff-btn active" data-diff="normal">Normal</button>
+      <button class="diff-btn" data-diff="hard">Hard</button>
     </div>
-
-    <!-- Shop Screen -->
-    <div id="shop-screen" class="screen">
-        <div class="shop-header">
-            <button id="btn-shop-back" class="btn-icon" onclick="closeShop()">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-            </button>
-            <h2 class="shop-title">Skin Shop</h2>
-            <div class="shop-balance">
-                <span class="coin-icon">🪙</span>
-                <span id="shop-coins">0</span>
-            </div>
-        </div>
-        <div class="shop-grid" id="shop-grid">
-            <!-- Skins injected by JS -->
-        </div>
+    <div class="menu-buttons">
+      <button id="btn-play" class="btn btn-play" onclick="startGame()">▶ Play</button>
+      <div class="btn-row">
+        <button class="btn btn-shop" onclick="openShop()">🛍 Shop</button>
+        <button class="btn btn-missions" onclick="openMissions()">🎯 Missions</button>
+      </div>
+      <button class="btn btn-secondary" onclick="openStats()">📊 Statistics</button>
     </div>
+    <div class="menu-stats">
+      <div class="stat-item"><span class="stat-icon">🪙</span><span class="stat-value" id="menu-coins">0</span></div>
+      <div class="stat-item"><span class="stat-icon">🏆</span><span class="stat-value" id="menu-highscore">0</span></div>
+    </div>
+  </div>
+</div>
 
-    <script src="game.js"></script>
+<!-- ===== GAME ===== -->
+<div id="game-screen" class="screen">
+  <canvas id="game-canvas"></canvas>
+  <div id="game-hud">
+    <div id="hud-left">
+      <div id="hud-score">0</div>
+      <div id="hud-combo" class="hidden">🔥 <span id="combo-val">2</span>x</div>
+    </div>
+    <div id="hud-right">
+      <div id="hud-coins"><span class="coin-icon">🪙</span><span id="hud-coin-count">0</span></div>
+      <div id="hud-powerups"></div>
+    </div>
+  </div>
+  <div id="fever-bar" class="hidden"><div id="fever-fill"></div><span>🔥 FEVER</span></div>
+  <div id="near-miss-flash" class="hidden">NEAR MISS! +1🪙</div>
+  <div id="tap-to-start" class="overlay-message">
+    <div class="tap-content"><div class="tap-icon">👆</div><p>Tap to Flap!</p></div>
+  </div>
+</div>
+
+<!-- ===== GAME OVER ===== -->
+<div id="gameover-screen" class="screen">
+  <div class="gameover-content">
+    <h2 class="gameover-title">Game Over</h2>
+    <div id="star-rating"><span>☆</span><span>☆</span><span>☆</span></div>
+    <div class="gameover-stats">
+      <div class="go-stat"><span class="go-label">Score</span><span class="go-value" id="go-score">0</span></div>
+      <div class="go-stat"><span class="go-label">Best</span><span class="go-value" id="go-best">0</span></div>
+      <div class="go-stat highlight"><span class="go-label">Coins</span><span class="go-value" id="go-coins">+0</span></div>
+    </div>
+    <div id="new-best" class="new-best hidden">✨ New Best! ✨</div>
+    <div class="gameover-buttons">
+      <button id="btn-revive" class="btn btn-revive" onclick="revive()">💖 Revive (50🪙)</button>
+      <button class="btn btn-play" onclick="startGame()">🔄 Retry</button>
+      <button class="btn btn-secondary" onclick="goToMenu()">🏠 Menu</button>
+      <button class="btn btn-spin" onclick="openSpin()">🎰 Spin!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SHOP ===== -->
+<div id="shop-screen" class="screen">
+  <div class="shop-header">
+    <button class="btn-icon" onclick="closeShop()">←</button>
+    <div class="shop-tabs">
+      <button class="shop-tab active" onclick="shopTab('skins')">Skins</button>
+      <button class="shop-tab" onclick="shopTab('bgs')">Backgrounds</button>
+    </div>
+    <div class="shop-balance"><span class="coin-icon">🪙</span><span id="shop-coins">0</span></div>
+  </div>
+  <div class="shop-grid" id="shop-grid"></div>
+</div>
+
+<!-- ===== MISSIONS ===== -->
+<div id="missions-screen" class="screen">
+  <div class="panel-header">
+    <button class="btn-icon" onclick="closeMissions()">←</button>
+    <h2>🎯 Missions</h2><div></div>
+  </div>
+  <div class="missions-list" id="missions-list"></div>
+</div>
+
+<!-- ===== STATS ===== -->
+<div id="stats-screen" class="screen">
+  <div class="panel-header">
+    <button class="btn-icon" onclick="closeStats()">←</button>
+    <h2>📊 Statistics</h2><div></div>
+  </div>
+  <div class="stats-grid" id="stats-grid"></div>
+  <div class="achievements-section">
+    <h3>🏅 Achievements</h3>
+    <div class="achievements-grid" id="ach-grid"></div>
+  </div>
+</div>
+
+<!-- ===== SPIN WHEEL ===== -->
+<div id="spin-screen" class="screen">
+  <div class="spin-wrap">
+    <h2>🎰 Lucky Spin</h2>
+    <canvas id="spin-canvas" width="320" height="320"></canvas>
+    <button id="btn-do-spin" class="btn btn-play" onclick="doSpin()">Spin!</button>
+    <div id="spin-result" class="hidden"></div>
+    <button id="btn-spin-close" class="btn btn-secondary hidden" onclick="closeSpin()">Collect</button>
+  </div>
+</div>
+
+<!-- ===== DAILY BONUS ===== -->
+<div id="daily-popup" class="popup hidden">
+  <div class="popup-content">
+    <h2>🎁 Daily Bonus!</h2>
+    <p>Come back every day for free coins!</p>
+    <div class="daily-reward">🪙 <span id="daily-amount">25</span></div>
+    <button class="btn btn-play" onclick="claimDaily()">Claim!</button>
+  </div>
+</div>
+
+<!-- ===== ACHIEVEMENT TOAST ===== -->
+<div id="ach-toast" class="ach-toast hidden">
+  <span class="ach-toast-icon">🏅</span>
+  <div><div class="ach-toast-title" id="ach-toast-title">Achievement!</div><div class="ach-toast-desc" id="ach-toast-desc"></div></div>
+</div>
+
+<script src="game.js"></script>
 </body>
 </html>
