@@ -1,0 +1,665 @@
+/* ============================================
+   FLAPPY QUEST — Premium Game Stylesheet
+   ============================================ */
+
+:root {
+    --bg-dark: #0a0e1a;
+    --bg-card: rgba(255, 255, 255, 0.06);
+    --bg-card-hover: rgba(255, 255, 255, 0.1);
+    --glass: rgba(15, 20, 40, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent: #f5a623;
+    --accent-glow: rgba(245, 166, 35, 0.4);
+    --green: #4cd964;
+    --green-glow: rgba(76, 217, 100, 0.3);
+    --red: #ff3b5c;
+    --blue: #5ac8fa;
+    --purple: #af52de;
+    --text: #f0f0f5;
+    --text-dim: rgba(240, 240, 245, 0.5);
+    --font: 'Outfit', sans-serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font);
+    background: var(--bg-dark);
+    color: var(--text);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ============================================
+   Screen Management
+   ============================================ */
+
+.screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+}
+
+/* ============================================
+   Main Menu
+   ============================================ */
+
+#menu-screen {
+    background: linear-gradient(160deg, #0d1321 0%, #1a1a3e 40%, #2d1b4e 100%);
+    overflow: hidden;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    z-index: 2;
+    animation: menuFadeIn 0.8s ease-out;
+}
+
+@keyframes menuFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.game-logo {
+    font-size: 3.2rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ff6347 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 4px 20px rgba(255, 165, 0, 0.3));
+    line-height: 1.1;
+}
+
+.game-logo span {
+    background: linear-gradient(135deg, #5ac8fa 0%, #af52de 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.tagline {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.menu-bird-preview {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    animation: birdFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes birdFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 220px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(255,255,255,0.15), transparent);
+    pointer-events: none;
+}
+
+.btn-play {
+    background: linear-gradient(135deg, #4cd964, #34c759);
+    color: #fff;
+    box-shadow: 0 6px 24px var(--green-glow);
+}
+
+.btn-play:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--green-glow);
+}
+
+.btn-play:active {
+    transform: translateY(1px);
+}
+
+.btn-shop {
+    background: linear-gradient(135deg, #f5a623, #f7c948);
+    color: #1a1a2e;
+    box-shadow: 0 6px 24px var(--accent-glow);
+}
+
+.btn-shop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: var(--bg-card-hover);
+}
+
+/* ============================================
+   Menu Stats
+   ============================================ */
+
+.menu-stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(10px);
+}
+
+.stat-icon {
+    font-size: 1.3rem;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* ============================================
+   Floating Coins Background
+   ============================================ */
+
+.floating-coins {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* ============================================
+   Game Screen
+   ============================================ */
+
+#game-screen {
+    background: #000;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#game-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 20px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#hud-score {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0 30px rgba(255,255,255,0.1);
+    line-height: 1;
+}
+
+#hud-coins {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.coin-icon {
+    font-size: 1.2rem;
+    animation: coinSpin 1.5s ease-in-out infinite;
+}
+
+@keyframes coinSpin {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(0.3); }
+}
+
+/* ============================================
+   Tap to Start Overlay
+   ============================================ */
+
+.overlay-message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+    background: rgba(0,0,0,0.15);
+    transition: opacity 0.3s ease;
+}
+
+.overlay-message.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tap-content {
+    text-align: center;
+    animation: tapPulse 1.8s ease-in-out infinite;
+}
+
+.tap-icon {
+    font-size: 3rem;
+    margin-bottom: 8px;
+}
+
+.tap-content p {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+@keyframes tapPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+}
+
+/* ============================================
+   Game Over
+   ============================================ */
+
+#gameover-screen {
+    background: rgba(10, 14, 26, 0.92);
+    backdrop-filter: blur(16px);
+}
+
+.gameover-content {
+    text-align: center;
+    animation: goSlideUp 0.5s ease-out;
+}
+
+@keyframes goSlideUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.gameover-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b6b, #ff3b5c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 28px;
+}
+
+.gameover-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.go-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    min-width: 90px;
+}
+
+.go-stat.highlight {
+    background: rgba(245, 166, 35, 0.1);
+    border-color: rgba(245, 166, 35, 0.25);
+}
+
+.go-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.go-value {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.go-stat.highlight .go-value {
+    color: var(--accent);
+}
+
+.new-best {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 20px;
+    animation: newBestPulse 0.8s ease-in-out infinite alternate;
+}
+
+.new-best.hidden {
+    display: none;
+}
+
+@keyframes newBestPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+}
+
+.gameover-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.gameover-buttons .btn {
+    min-width: 130px;
+}
+
+/* ============================================
+   Shop Screen
+   ============================================ */
+
+#shop-screen {
+    background: linear-gradient(160deg, #0d1321 0%, #1a1a3e 50%, #2d1b4e 100%);
+    padding: 0;
+    justify-content: flex-start;
+}
+
+.shop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.shop-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.shop-balance {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(245, 166, 35, 0.12);
+    border: 1px solid rgba(245, 166, 35, 0.2);
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    overflow-y: auto;
+    flex: 1;
+    align-content: start;
+}
+
+.skin-card {
+    background: var(--bg-card);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 18px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skin-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+.skin-card.equipped {
+    border-color: var(--green);
+    box-shadow: 0 0 20px var(--green-glow);
+}
+
+.skin-card.locked {
+    opacity: 0.7;
+}
+
+.skin-card .equipped-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--green);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skin-preview {
+    width: 64px;
+    height: 64px;
+}
+
+.skin-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.skin-price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.skin-price.free {
+    color: var(--green);
+}
+
+.skin-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skin-btn.buy {
+    background: linear-gradient(135deg, #f5a623, #f7c948);
+    color: #1a1a2e;
+}
+
+.skin-btn.equip {
+    background: linear-gradient(135deg, #5ac8fa, #007aff);
+    color: #fff;
+}
+
+.skin-btn.equipped {
+    background: rgba(76, 217, 100, 0.15);
+    color: var(--green);
+    cursor: default;
+}
+
+.skin-btn.cant-afford {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-dim);
+    cursor: not-allowed;
+}
+
+.skin-btn:not(.equipped):not(.cant-afford):hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+/* ============================================
+   Coin Pickup Animation
+   ============================================ */
+
+.coin-popup {
+    position: fixed;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--accent);
+    pointer-events: none;
+    z-index: 100;
+    animation: coinPopup 0.8s ease-out forwards;
+    text-shadow: 0 2px 8px rgba(245, 166, 35, 0.6);
+}
+
+@keyframes coinPopup {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+.shop-grid::-webkit-scrollbar {
+    width: 4px;
+}
+
+.shop-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.shop-grid::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 400px) {
+    .game-logo { font-size: 2.6rem; }
+    .gameover-stats { gap: 10px; }
+    .go-stat { padding: 12px 16px; min-width: 75px; }
+    .go-value { font-size: 1.6rem; }
+    .shop-grid { gap: 12px; padding: 14px; }
+}
